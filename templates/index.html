@@ -61,6 +61,11 @@ header h1 {
     transition: transform 0.2s;
     cursor: pointer;
     position: relative;
+    pointer-events: none; /* Desabilita os cliques inicialmente */
+}
+
+.card.enabled {
+    pointer-events: auto; /* Habilita os cliques quando a classe 'enabled' for adicionada */
 }
 
 .card:hover {
@@ -92,6 +97,16 @@ header h1 {
     margin: 10px 0;
     font-size: 1rem;
     color: #555;
+}
+
+.notification {
+    display: none;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #ffcccc;
+    color: #cc0000;
+    border: 1px solid #cc0000;
+    border-radius: 5px;
 }
 
 /* POPUP */
@@ -197,9 +212,17 @@ header h1 {
         </header>
         <main>
             <div class="input-container">
-                <input type="text" id="instagram-username" placeholder="Insira seu usuário do Instagram" required>
+                <input type="text" id="instagram-username" placeholder="Insira seu usuário do Instagram" required oninput="checkInput()">
+                <p id="error-message" class="notification-bubble" style="display: none;">
+                    O nome de usuário deve começar com "@"
+                </p>
+              <p  style="color: red; ">Os planos so podem ser selecionado
+                após você inserir seu usuário do Instagram!</p>
             </div>
 
+            <div class="notification" id="notification">
+                Por favor, insira seu usuário do Instagram e lembre-se de usar "@"
+            </div>
             <h1> Selecione a Opção Desejada Abaixo ! </h1>
             <div class="cards-container">
                 {% for package in packages %}
@@ -211,7 +234,7 @@ header h1 {
                 </div>
                 {% endfor %}
             </div>
-        <img id="img" src="https://algodaocru.com.br/wp-content/uploads/2022/03/COMPRA-100-SEGURA-1800-px-%C3%97-140-px.png" alt="compra segura" style="width: 100%; height: auto;">
+        <img id="img" src="https://algodaocru.com.br/wp-content/uploads/2022/03/COMPRA-100-SEGURA-1800-px-%C3%97-140-px.png" alt="compra segura" style="width: 120%; height: auto;">
 
         </main>
         <div id="popup" class="popup">
@@ -232,7 +255,48 @@ header h1 {
 
     
     <script>
+
+        function checkInput() {
+            const username = document.getElementById('instagram-username').value;
+            const cards = document.querySelectorAll('.card');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Verifica se o nome de usuário começa com '@'
+            if (username.trim() !== '') {
+                cards.forEach(card => card.classList.add('enabled'));
+            } else {
+                cards.forEach(card => card.classList.remove('enabled'));
+            }
+
+            // Exibe a notificação caso o nome não comece com '@'
+            if (!username.startsWith('@') && username.length > 0) {
+                errorMessage.style.display = 'block';
+            } else {
+                errorMessage.style.display = 'none';
+            }
+        }
+
+    
+        function checkInput() {
+            const username = document.getElementById('instagram-username').value;
+            const cards = document.querySelectorAll('.card');
+            if (username.trim() !== '') {
+                cards.forEach(card => card.classList.add('enabled'));
+            } else {
+                cards.forEach(card => card.classList.remove('enabled'));
+            }
+        }
+
         function showQRCode(price) {
+            const username = document.getElementById('instagram-username').value;
+            if (username.trim() === '' || !username.startsWith('@')) {
+                document.getElementById('notification').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('notification').style.display = 'none';
+                }, 3000);
+                return;
+            }
+
             document.getElementById('popup').style.display = 'flex';
             document.getElementById('loading').style.display = 'block';
             document.getElementById('qrcode').style.display = 'none';
@@ -245,7 +309,7 @@ header h1 {
                 setTimeout(() => {
                     document.getElementById('qrcode').style.display = 'none';
                     document.getElementById('checking-payment').style.display = 'block';
-                }, 35000); // Exibe "Conferindo pagamento..." após 3 segundos
+                }, 35000); // Exibe "Conferindo pagamento..." após 35 segundos
             }, 2000); // Simula carregamento de 2 segundos
         }
         
