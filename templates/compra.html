@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opções de Compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+        img {
+            margin-top: 20px;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Opções de Compra para @{{ username }}</h1>
+        <div class="option" onclick="showQRCode()">1.000 seguidores = R$ 10,00</div>
+        <div class="option" onclick="showQRCode()">2.000 seguidores = R$ 17,00</div>
+        <div class="option" onclick="showQRCode()">3.000 seguidores = R$ 24,00</div>
+        <div class="option" onclick="showQRCode()">4.000 seguidores = R$ 30,00</div>
+        <div class="option" onclick="showQRCode()">5.000 seguidores = R$ 35,00</div>
+        <div class="option" onclick="showQRCode()">6.000 seguidores = R$ 40,00</div>
+        <div class="option" onclick="showQRCode()">7.000 seguidores = R$ 45,00</div>
+        <div class="option" onclick="showQRCode()">8.000 seguidores = R$ 50,00</div>
+        <div class="option" onclick="showQRCode()">9.000 seguidores = R$ 55,00</div>
+        <div class="option" onclick="showQRCode()">10.000 seguidores = R$ 60,00</div>
+        <img id="qrcode" src="qrcode.png" alt="QR Code de Pagamento" style="display: none;">
+    </div>
+    <script>
+        function showQRCode() {
+            document.getElementById('qrcode').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
